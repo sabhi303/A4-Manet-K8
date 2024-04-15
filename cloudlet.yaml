@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudlet
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cloudlet
+  template:
+    metadata:
+      labels:
+        app: cloudlet
+    spec:
+      containers:
+      - name: cloudlet
+        image: docker.io/library/manet:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 5000
+        command: ["python", "/app/cloudlet-new.py", "mysql-service.default.svc.cluster.local"]

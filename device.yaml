@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: devices
+spec:
+  parallelism: 2
+  completions: 1
+  template:
+    spec:
+      containers:
+      - name: device
+        image: docker.io/library/manet:latest
+        imagePullPolicy: Never
+        resources:
+          limits:
+            cpu: "1"
+            memory: "1024Mi"
+          requests:
+            cpu: "1"
+            memory: "512Mi"
+        command: ["python", "simulator.py", "cloudlet-service.default.svc.cluster.local"]  # Command to run simulator.py with the DNS name
+      restartPolicy: Never
